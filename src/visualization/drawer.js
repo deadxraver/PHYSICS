@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useEffect, useRef} from 'react';
 import Matter from 'matter-js';
 
 window.canvasWidth = window.innerWidth / 2;
+console.log(window.canvasWidth / 2);
 let engine, world;
 
 let allElements = [];
@@ -11,14 +12,30 @@ const blockWidth = 30;
 const blockHeight = 20;
 
 function createStaticElements() {
-	window.ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, { isStatic: true, collisionFilter: {isSensor: true,}, });
-	window.leftWall = Matter.Bodies.rectangle(10, 200, 20, 400, { isStatic: true, collisionFilter: {isSensor: true,}, });
-	window.rightWall = Matter.Bodies.rectangle(window.canvasWidth - 40, 200, 20, 400, { isStatic: true, collisionFilter: {isSensor: true,}, });
-	window.ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 10, window.canvasWidth, 20, { isStatic: true, collisionFilter: {isSensor: true,}, });
-	window.table = Matter.Bodies.rectangle(3 * window.canvasWidth / 4, 300, window.canvasWidth / 2, 200, { isStatic: true, collisionFilter: {isSensor: true,}, });
+	window.ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, {
+		isStatic: true,
+		collisionFilter: {isSensor: true,},
+	});
+	window.leftWall = Matter.Bodies.rectangle(10, 200, 20, 400, {isStatic: true, collisionFilter: {isSensor: true,},});
+	window.rightWall = Matter.Bodies.rectangle(window.canvasWidth - 40, 200, 20, 400, {
+		isStatic: true,
+		collisionFilter: {isSensor: true,},
+	});
+	window.ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 10, window.canvasWidth, 20, {
+		isStatic: true,
+		collisionFilter: {isSensor: true,},
+	});
+	window.table = Matter.Bodies.rectangle(3 * window.canvasWidth / 4, 300, window.canvasWidth / 2, 200, {
+		isStatic: true, collisionFilter: {isSensor: true,},
+		render: {
+			sprite: {
+				texture: 'table.png'
+			}
+		},
+	});
 	window.roller = Matter.Bodies.circle(window.canvasWidth / 2, 200, 15, {
 		isStatic: true,
-		render: { fillStyle: 'blue' },
+		render: {sprite: {texture: 'wheel.png'}},
 		collisionFilter: {isSensor: true,},
 	});
 
@@ -26,19 +43,19 @@ function createStaticElements() {
 }
 
 function createDynamicElements() {
-	window.block1 = Matter.Bodies.rectangle(.5/4 * window.canvasWidth+40, 200-20, blockWidth, blockHeight, {
+	window.block1 = Matter.Bodies.rectangle(.5 / 4 * window.canvasWidth + 40, 200 - 20, blockWidth, blockHeight, {
 		mass: window.m1,
 		friction: window.k,
-		render: { fillStyle: 'black' },
+		render: {fillStyle: 'black'},
 		collisionFilter: {
 			isSensor: true,
 		},
 	});
 
-	window.block2 = Matter.Bodies.rectangle(.5/4 * window.canvasWidth, 200-20, blockWidth, blockHeight, {
+	window.block2 = Matter.Bodies.rectangle(.5 / 4 * window.canvasWidth, 200 - 20, blockWidth, blockHeight, {
 		mass: window.m2,
 		friction: window.k,
-		render: { fillStyle: 'black' },
+		render: {fillStyle: 'black'},
 		collisionFilter: {
 			isSensor: true,
 		},
@@ -55,10 +72,14 @@ function createDynamicElements() {
 		})
 	);
 
-	window.weight = Matter.Bodies.rectangle(.5/4 * window.canvasWidth, 200-60, blockHeight, blockHeight, {
+	window.weight = Matter.Bodies.rectangle(.5 / 4 * window.canvasWidth, 200 - 60, blockHeight, blockHeight, {
 		mass: window.m2,
 		friction: window.k,
-		render: { fillStyle: 'black' },
+		render: {
+			sprite: {
+				texture: 'weight.png',
+			}
+		},
 		collisionFilter: {
 			isSensor: true,
 		},
@@ -68,10 +89,10 @@ function createDynamicElements() {
 
 function processRopes() {
 	for (let i = 0; i < segmentCount; i++) {
-		const segment = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth + i * segmentLength, 200-20, segmentLength, segmentLength, {
+		const segment = Matter.Bodies.rectangle(2.5 / 4 * window.canvasWidth + i * segmentLength, 200 - 20, segmentLength, segmentLength, {
 			mass: 0,
 			friction: 0.05,
-			render: { visible: false },
+			render: {visible: false},
 			collisionFilter: {
 				isSensor: true,
 			},
@@ -99,7 +120,7 @@ function processRopes() {
 			mass: 0,
 			bodyA: window.block1,
 			bodyB: ropeSegments[0],
-			length: blockWidth/2 + 4,
+			length: blockWidth / 2 + 4,
 			stiffness: 1,
 			// render: { visible: false },
 		})
@@ -109,7 +130,7 @@ function processRopes() {
 			mass: 0,
 			bodyA: window.weight,
 			bodyB: ropeSegments[ropeSegments.length - 1],
-			length: blockHeight/2 + 4,
+			length: blockHeight / 2 + 4,
 			stiffness: 1,
 			// render: { visible: false },
 		})
@@ -118,10 +139,10 @@ function processRopes() {
 	Matter.Events.on(engine, 'collisionActive', (event) => {
 		const pairs = event.pairs;
 		pairs.forEach((pair) => {
-			const { bodyA, bodyB } = pair;
+			const {bodyA, bodyB} = pair;
 			if ((bodyA === window.roller && ropeSegments.includes(bodyB)) || (bodyB === window.roller && ropeSegments.includes(bodyA))) {
 				const ropeSegment = bodyA === window.roller ? bodyB : bodyA; // r = 5
-				if ((ropeSegment.position.x - window.roller.position.x)**2 + (ropeSegment.position.y - window.roller.position.y)**2 < 7**2) {
+				if ((ropeSegment.position.x - window.roller.position.x) ** 2 + (ropeSegment.position.y - window.roller.position.y) ** 2 < 7 ** 2) {
 					Matter.World.remove(world, ropeSegment);
 					const constraintsToRemove = ropeConstraints.filter(constraint =>
 						constraint.bodyA === ropeSegment || constraint.bodyB === ropeSegment
@@ -158,7 +179,7 @@ function PhysicsVisualization() {
 				width: window.canvasWidth - 30,
 				height: 400,
 				wireframes: false,
-				background: '#f0f0f0',
+				background: 'grey',
 			},
 		});
 
@@ -166,7 +187,10 @@ function PhysicsVisualization() {
 		createDynamicElements();
 		processRopes();
 
-		window.redline = Matter.Bodies.rectangle(window.canvasWidth / 4, 240, window.canvasWidth / 2, 10, { isStatic: true, render: { fillStyle: 'red' } });
+		window.redline = Matter.Bodies.rectangle(window.canvasWidth / 4, 240, window.canvasWidth / 2, 10, {
+			isStatic: true,
+			render: {fillStyle: 'red'}
+		});
 		allElements.push(window.redline);
 
 		// Добавляем все тела в мир
@@ -183,7 +207,6 @@ function PhysicsVisualization() {
 			},
 		});
 		Matter.World.add(world, mouseConstraint);
-
 
 		// Запускаем движок
 		Matter.Engine.run(engine);
@@ -203,7 +226,7 @@ function PhysicsVisualization() {
 		};
 	}, []);
 
-	return <div ref={sceneRef} />;
+	return <div ref={sceneRef}/>;
 }
 
 export default PhysicsVisualization;

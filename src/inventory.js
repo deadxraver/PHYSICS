@@ -44,13 +44,19 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
         const isHovered = label === hoveredItem;
         const isDragging = label === draggingItem;
         const baseStyles = {
-            width: type === 'rectangle' ? '100px' : type === 'circle' ? '50px' : '100px',
-            height: type === 'rectangle' ? '50px' : type === 'circle' ? '50px' : '0.1px',
+            width: type === 'circle' ?  '60px' : '120px',
+            height: type === 'rectangle' ? '55px' : type === 'circle' ? '60px' : '0.1px',
             margin: '10px',
             padding: '10px',
             border: '1px solid black',
+            backgroundImage:  label === 'Нить' ? 'url(resources/нитка.jpg)' :
+                label === 'm2' ? 'url(resources/weight_before.jpg)' :
+                    label === 'Блок' ? 'url(resources/колесо.png)' :
+                                'url(resources/телега.jpg)',
+            backgroundSize: '100% 110%',
             cursor: 'grab',
             display: 'flex',
+            fontWeight: 'bold',
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: isDragging
@@ -67,7 +73,7 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
 
     return (
         <div
-            style={{ border: '1px solid black', padding: '10px', width: '150px', backgroundColor: '#f6cddb' }}
+            style={{ border: '1px solid black', padding: '10px', width: '160px', backgroundColor: 'lavenderblush', textAlign: 'center'}}
             onDrop={(e) => {
                 e.preventDefault();
                 try {
