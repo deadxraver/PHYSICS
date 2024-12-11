@@ -58,6 +58,7 @@ function generateVars() {
 	window.m1 = 0.5 + Math.random() * rangeM;
 	window.m2 = 0.5 + Math.random() * rangeM;
 	window.m0 = 1 + Math.random() * rangeM0;
+	window.g = 9.8;
 }
 
 function declareVars() {
