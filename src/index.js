@@ -40,8 +40,6 @@ function ScalesComponent() {
 			} catch (error) {
 				console.error('Failed to handle drop event:', error);
 			}
-		} else {
-			console.error('Drop event missing dataTransfer');
 		}
 	};
 
@@ -96,7 +94,7 @@ function generateVars() {
 	const rangeM = 0.4;
 	window.m1 = 0.3 + Math.random() * rangeM;
 	window.m2 = 0.3 + Math.random() * rangeM;
-	window.m0 = (window.m1 + window.m2) * window.k + 0.2  + Math.random() * 0.2;
+	window.m0 = (window.m1 + window.m2) + 0.2  + Math.random() * 0.2;
 	window.g = 9.8;
 	window.t = null;
 }
