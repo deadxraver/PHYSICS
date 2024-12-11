@@ -38,6 +38,18 @@ const InventoryItem = ({ type, label, weight, onSelect, isSelected }) => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: isSelected ? 'lightblue' : 'white',
+        },
+        linear: {
+            width: '150px',
+            height: '0.1px',
+            margin: '10px',
+            padding: '10px',
+            border: '1px solid black',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: isSelected ? 'lightblue' : 'lightyellow',
         }
     };
 
@@ -69,6 +81,7 @@ const Inventory = ({ onSelect }) => {
         { type: 'rectangle', label: 'm1', weight: 1.5 },
         { type: 'rectangle', label: 'm2', weight: 2.0 },
         { type: 'string', label: 'Нить', weight: 0.0 },
+        { type: 'string', label: 'Линейка', weight: 0.0 },
         { type: 'circle', label: 'Блок', weight: 0.0 },
     ];
 
@@ -90,5 +103,7 @@ const Inventory = ({ onSelect }) => {
         </div>
     );
 };
-
+export const getSelectedItem = (inventoryState) => {
+    return inventoryState;
+};
 export default Inventory;

@@ -1,8 +1,10 @@
+// timer.js
 import { useState, useRef } from 'react';
 
 export function useTimer() {
     const [time, setTime] = useState("00:00:00.000");
     const [isRunning, setIsRunning] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false); // новое состояние для отслеживания начала таймера
     const startTimeRef = useRef(null);
     const timerIntervalRef = useRef(null);
 
@@ -17,6 +19,7 @@ export function useTimer() {
 
     const startTimer = () => {
         setIsRunning(true);
+        setHasStarted(true); // После старта таймера мы устанавливаем флаг
         startTimeRef.current = Date.now();
         timerIntervalRef.current = setInterval(() => {
             const elapsedTime = Date.now() - startTimeRef.current;
@@ -32,6 +35,7 @@ export function useTimer() {
     return {
         time,
         isRunning,
+        hasStarted,
         startTimer,
         stopTimer
     };

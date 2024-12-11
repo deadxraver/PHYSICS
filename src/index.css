@@ -55,6 +55,11 @@ body > .header:not {
 .start-stop-button:hover {
     background-color: lavender;
 }
+.start-stop-button:disabled {
+    background-color: #d3d3d3; /* Серый цвет для отключенной кнопки */
+    color: #a0a0a0; /* Более светлый цвет текста */
+    cursor: not-allowed; /* Устанавливаем курсор "недоступен" */
+}
 
 .check-button {
     background-color: rgba(87, 255, 9, 0.5);
@@ -69,9 +74,9 @@ body > .header:not {
     background-color: lavenderblush;
     padding: 15px;
 }
- label {
+label {
 
-    font-weight: bold;
-    font-family: Arial;
-    font-size: 22px;
+font-weight: bold;
+font-family: Arial;
+font-size: 22px;
 }

@@ -4,7 +4,7 @@ import './index.css';
 import {useTimer} from './timer';
 import PhysicsVisualization from "./visualization/drawer";
 import Scales from "./scales";
-import Inventory from "./inventory";
+import Inventory, {getSelectedItem} from "./inventory";
 import Form from "./form";
 
 
@@ -31,10 +31,12 @@ function ScalesComponent() {
 }
 
 function TimerComponent({onStart}) {
-	const {time, isRunning, startTimer, stopTimer} = useTimer();
+	const {time, isRunning, hasStarted, startTimer, stopTimer} = useTimer();
 
 	const handleStart = () => {
-		startTimer();
+		if (!hasStarted) {
+			startTimer();
+		}
 		onStart();
 	};
 
@@ -43,7 +45,7 @@ function TimerComponent({onStart}) {
 			<div className="timer-container">
 				<label htmlFor="timer"> таймер </label>
 				<div className="timer" id="timer">{time}</div>
-				<button className="start-stop-button" onClick={handleStart} disabled={isRunning}>Пуск</button>
+				<button className="start-stop-button" onClick={handleStart} disabled={isRunning || hasStarted}>Пуск</button>
 				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
 
 			</div>
@@ -59,6 +61,7 @@ function generateVars() {
 	window.m2 = 0.5 + Math.random() * rangeM;
 	window.m0 = 1 + Math.random() * rangeM0;
 	window.g = 9.8;
+	window.t = null;
 }
 
 function declareVars() {
@@ -67,6 +70,15 @@ function declareVars() {
 	} while ((window.m1 + window.m2) * window.k > window.m0 + 0.1);
 }
 
+
+//
+// let canvas = document.getElementsByTagName("canvas");
+//canvas.addEventListener('click', handleCanvasClick)
+// function handleCanvasClick(){
+// 	if (getSelectedItem() === 'Линейка') console.log("жопаппапаа")
+// }
+
+console.log(getSelectedItem())
 export function App() {
 	declareVars();
 	const [showPhysics, setShowPhysics] = useState(false);
