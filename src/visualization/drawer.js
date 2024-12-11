@@ -6,7 +6,7 @@ console.log(window.canvasWidth / 2);
 let engine, world;
 
 let allElements = [];
-const ropeSegments = [], segmentCount = 40, segmentLength = 4, ropeConstraints = [];
+const ropeSegments = [], segmentCount = 35, segmentLength = 4, ropeConstraints = [];
 
 const blockWidth = 30;
 const blockHeight = 20;
@@ -46,7 +46,11 @@ function createDynamicElements() {
 	window.block1 = Matter.Bodies.rectangle(.5 / 4 * window.canvasWidth + 40, 200 - 20, blockWidth, blockHeight, {
 		mass: window.m1,
 		friction: window.k,
-		render: {fillStyle: 'black'},
+		render: {
+			sprite: {
+				texture: 'block.png',
+			}
+		},
 		collisionFilter: {
 			isSensor: true,
 		},
@@ -55,7 +59,11 @@ function createDynamicElements() {
 	window.block2 = Matter.Bodies.rectangle(.5 / 4 * window.canvasWidth, 200 - 20, blockWidth, blockHeight, {
 		mass: window.m2,
 		friction: window.k,
-		render: {fillStyle: 'black'},
+		render: {
+			sprite: {
+				texture: 'block.png',
+			}
+		},
 		collisionFilter: {
 			isSensor: true,
 		},
