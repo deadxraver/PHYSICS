@@ -6,7 +6,7 @@ import PhysicsVisualization from "./visualization/drawer";
 import Scales from "./scales";
 import Inventory from "./inventory";
 import Form from "./form";
-
+import Matter from 'matter-js'
 
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
@@ -50,8 +50,8 @@ function ScalesComponent() {
 	};
 
 	return (
-		<div style={{ display: 'flex', justifyContent: 'space-around' }}>
-			<Inventory onSelect={handleSelect} onDragStart={handleDragStart} />
+		<div style={{display: 'flex', justifyContent: 'space-around'}}>
+			<Inventory onSelect={handleSelect} onDragStart={handleDragStart}/>
 			<Scales
 				selectedObject={objectOnScales}
 				onPlace={setObjectOnScales}
@@ -64,14 +64,14 @@ function ScalesComponent() {
 	);
 }
 
-function TimerComponent({onStart}) {
+function TimerComponent() {
 	const {time, isRunning, hasStarted, startTimer, stopTimer} = useTimer();
 
 	const handleStart = () => {
 		if (!hasStarted) {
 			startTimer();
+			removeRedline();
 		}
-		onStart();
 	};
 
 	return (
@@ -84,16 +84,19 @@ function TimerComponent({onStart}) {
 
 			</div>
 		</>
-	);
+	)
+}
+
+function removeRedline() {
+	Matter.World.remove(window.engine.world, window.redline);
 }
 
 function generateVars() {
 	window.k = Math.random() * 0.99 + 0.01;
 	const rangeM = 0.4;
-	const rangeM0 = 0.4;
-	window.m1 = 0.1 + Math.random() * rangeM;
-	window.m2 = 0.1 + Math.random() * rangeM;
-	window.m0 = 0.4 + Math.random() * rangeM0;
+	window.m1 = 0.3 + Math.random() * rangeM;
+	window.m2 = 0.3 + Math.random() * rangeM;
+	window.m0 = (window.m1 + window.m2) * window.k + 0.2  + Math.random() * 0.2;
 	window.g = 9.8;
 	window.t = null;
 }
@@ -104,21 +107,29 @@ function declareVars() {
 	} while ((window.m1 + window.m2) * window.k > window.m0 + 0.1);
 }
 
+
+//
+// let canvas = document.getElementsByTagName("canvas");
+//canvas.addEventListener('click', handleCanvasClick)
+// function handleCanvasClick(){
+// 	if (getSelectedItem() === 'Линейка') console.log("жопаппапаа")
+// }
+
+// console.log(getSelectedItem())
 export function App() {
 	declareVars();
-	const [showPhysics, setShowPhysics] = useState(false);
 	return (
 		<>
-			<ScalesComponent />
-			{showPhysics && <PhysicsVisualization />}
-			<TimerComponent onStart={() => setShowPhysics(true)} />
-			<Form />
+			<ScalesComponent/>
+			<PhysicsVisualization/>
+			<TimerComponent/>
+			<Form/>
 		</>
-	);
+	)
 }
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 root.render(
-	<App />
+	<App/>
 );
