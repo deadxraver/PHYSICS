@@ -29,7 +29,7 @@ const InventoryItem = ({ type, label, weight, onSelect, isSelected }) => {
         },
         string: {
             width: '100px',
-            height: '10px',
+            height: '0.1px',
             margin: '10px',
             padding: '10px',
             border: '1px solid black',

@@ -11,37 +11,41 @@ const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObjec
         image.src = 'scales.png';
 
         const drawScales = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
         };
 
         image.onload = () => {
             drawScales();
             if (selectedObject) {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.fillStyle = 'lightblue';
                 ctx.font = '14px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 switch (selectedObject.type) {
                     case 'rectangle':
-                        ctx.fillRect(90, 90, 100, 50); // Adjusted position
-                        ctx.fillStyle = 'white';
-                        ctx.fillText(selectedObject.label, 140, 115); // Adjusted position
-                        ctx.fillText(`${selectedObject.weight} кг`, 140, 135); // Adjusted position
+                        ctx.fillStyle = 'lightblue';
+                        ctx.fillRect(65, 30, 100, 50);
+                        ctx.strokeStyle = 'black';
+                        ctx.lineWidth = 0.5;
+                        ctx.strokeRect(65, 30, 100, 50);
+                        ctx.fillStyle = 'black';
+                        ctx.fillText(selectedObject.label, 115, 50);
+                        ctx.fillText(`${selectedObject.weight} кг`, 115, 65);
                         break;
                     case 'circle':
                         ctx.beginPath();
-                        ctx.arc(140, 140, 25, 0, 2 * Math.PI); // Adjusted position
+                        ctx.arc(100, 100, 25, 0, 2 * Math.PI);
                         ctx.fill();
                         ctx.fillStyle = 'white';
-                        ctx.fillText(selectedObject.label, 140, 140); // Adjusted position
-                        ctx.fillText(`${selectedObject.weight} кг`, 140, 160); // Adjusted position
+                        ctx.fillText(selectedObject.label, 100, 100);
+                        ctx.fillText(`${selectedObject.weight} кг`, 100, 120);
                         break;
                     case 'string':
-                        ctx.fillRect(90, 190, 100, 10); // Adjusted position
+                        ctx.fillRect(50, 150, 100, 10);
                         ctx.fillStyle = 'white';
-                        ctx.fillText(selectedObject.label, 140, 195); // Adjusted position
-                        ctx.fillText(`${selectedObject.weight} кг`, 140, 215); // Adjusted position
+                        ctx.fillText(selectedObject.label, 100, 155);
+                        ctx.fillText(`${selectedObject.weight} кг`, 100, 175);
                         break;
                     default:
                         break;
@@ -57,7 +61,6 @@ const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObjec
     const handlePlaceOnScales = () => {
         if (selectedObjectState) {
             if (selectedObjectState.weight === 0.0) {
-                // Используем SweetAlert2 для красивого уведомления
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ошибка!',
