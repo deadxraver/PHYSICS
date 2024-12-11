@@ -45,7 +45,7 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
         const isHovered = label === hoveredItem;
         const isDragging = label === draggingItem;
         const baseStyles = {
-            width: type === 'circle' ?  '100px' : '120px',
+            width: type === 'circle' ?  '100px' : label === 'm0' ? '80px' : '120px',
             height: type === 'rectangle' ? '55px' : type === 'circle' ? '100px' : '0.1px',
             margin: '10px',
             padding: '10px',
@@ -53,11 +53,11 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
             backgroundImage:  label === 'Нить' ? 'url(resources/нитка.jpg)' :
                 label === 'm0' ? 'url(resources/weight_before.jpg)' :
                     label === 'Блок' ? 'url(resources/колесо.png)' :
-                                'url(resources/телега.jpg)',
+                        'url(resources/телега.jpg)',
             backgroundSize: '100% 110%',
-            color: type === 'circle' ? 'white':'black',
+            color: 'black',
             cursor: 'grab',
-            fontSize: type === 'circle' ? '30px' : 'normal',
+            fontSize: 'normal',
             display: 'flex',
             fontWeight: 'bold',
             alignItems: 'center',
@@ -70,6 +70,7 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
             boxShadow: isHovered ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
             borderRadius: type === 'circle' ? '50%' : '0',
             transition: 'background-color 0.2s, box-shadow 0.2s',
+            position: 'relative',
         };
         return baseStyles;
     };
@@ -96,14 +97,29 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
             {items.map((item, index) => (
                 <div
                     key={index}
-                    style={getItemStyle(item.type, item.label)}
+                    style={{ margin: '10px', textAlign: 'center' }}
                     draggable
                     onMouseEnter={() => handleMouseEnter(item.label)}
                     onMouseLeave={handleMouseLeave}
                     onDragStart={(e) => handleDragStart(e, item)}
                     onDragEnd={handleDragEnd}
                 >
-                    <p>{item.label}</p>
+                    <div style={getItemStyle(item.type, item.label)}>
+                        <div style={{
+                            position: 'absolute',
+                            bottom: '0',
+                            width: '100%',
+                            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                            textAlign: 'center',
+                            padding: '2px 0',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            height: 'auto',
+                        }}>
+                            <p style={{ margin: '0' }}>{item.label}</p>
+                        </div>
+                    </div>
                 </div>
             ))}
         </div>

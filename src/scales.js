@@ -72,22 +72,21 @@ const Scales = ({ onDropObject, onReturnItem }) => {
                     style={{
                         position: 'absolute',
                         top: '30px',
-                        left: '45px',
-                        width: '120px',
+                        left: '55px',
+                        width: placedObject.type === 'circle' ?  '100px' : placedObject.label === 'm0' ? '80px' : '120px',
                         fontWeight: 'bold',
-                        height: '50px',
-                        backgroundImage: placedObject.label === 'm0' ? 'url(resources/weight_v_momente.jpg)': 'url(resources/телега.jpg)',
-                        backgroundSize: '100% 100%',
-                        backgroundColor: '#FFC2D5FF',
+                        fontSize: 'larger',
+                        height: '55px',
                         border: '1px solid black',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         cursor: 'grab',
+                        backgroundImage: `url(${placedObject.label === 'm0' ? 'resources/weight_v_momente.jpg' : 'resources/телега.jpg'})`,
+                        backgroundSize: '100%',
                     }}
                 >
-                    <div style={{ textAlign: 'center' }}>
-                        <p>{placedObject.label}</p>
+                    <div style={{ textAlign: 'center', backgroundColor: 'rgba(255,255,255,0.59)', maxHeight: '100%', width: '100%' }}>
                         <p>{`${placedObject.weight} кг`}</p>
                     </div>
                 </div>
