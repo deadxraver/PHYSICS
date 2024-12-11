@@ -4,7 +4,7 @@ import './index.css';
 import {useTimer} from './timer';
 import PhysicsVisualization from "./visualization/drawer";
 import Scales from "./scales";
-import Inventory, {getSelectedItem} from "./inventory";
+import Inventory from "./inventory";
 import Form from "./form";
 
 

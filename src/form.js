@@ -7,19 +7,23 @@ function ValidationForm() {
     const [T, setT] = useState('');
     const [message, setMessage] = useState('');
 
-    const [kValid, setKValid] = useState(null); // null, true, or false
-    const [TValid, setTValid] = useState(null); // null, true, or false
+    const [kValid, setKValid] = useState(null);
+    const [TValid, setTValid] = useState(null);
 
     // Заданные значения для проверки
-    const correctK = 5; // TODO это должно задаться рандомно в начале
-    const correctT = 10; // TODO это по формулку считаться
-    // T = ( m_2 * m_0 * g * (1 + k) ) / (m_0 + m_1 + m_2)
+    const m0 = window.m0.toFixed(2);
+    const m1 = window.m1.toFixed(2);
+    const m2 = window.m2.toFixed(2);
+    const correctK = window.k.toFixed(2);
+    const correctT = (m2 * m0 * window.g * (1 + correctK)) / (m0 + m1 + m2);
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Предотвращаем перезагрузку страницы
+        e.preventDefault();
 
-        const isKValid = parseFloat(k) === correctK;
-        const isTValid = parseFloat(T) === correctT;
+        const epsilon = 0.1;
+
+        const isKValid = Math.abs(parseFloat(k) - correctK) <= epsilon;
+        const isTValid = Math.abs(parseFloat(T) - correctT) <= epsilon;
 
         setKValid(isKValid);
         setTValid(isTValid);
