@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 
-function PhysicsVisualization() { // пример реализации библы!!
+function PhysicsVisualization() {
 	const sceneRef = useRef(null);
 
 	useEffect(() => {
@@ -27,22 +27,85 @@ function PhysicsVisualization() { // пример реализации библ�
 		const rightWall = Matter.Bodies.rectangle(790, 200, 20, 400, { isStatic: true });
 		const topWall = Matter.Bodies.rectangle(400, 10, 810, 20, { isStatic: true });
 
-		// Движущиеся шары
-		const ballA = Matter.Bodies.circle(300, 50, 30, {
-			restitution: 0.9,
+		// Создаем блоки с массой и трением
+		const block1 = Matter.Bodies.rectangle(400, 300, 80, 40, {
+			mass: 5,
+			friction: 0.1,
+			render: { fillStyle: 'black' },
+		});
+
+		const block2 = Matter.Bodies.rectangle(200, 300, 80, 40, {
+			mass: 5,
+			friction: 0.1,
+			render: { fillStyle: 'black' },
+		});
+
+		// Создаем вращающийся валик
+		const roller = Matter.Bodies.circle(300, 200, 20, {
+			isStatic: true,
 			render: { fillStyle: 'blue' },
 		});
-		const ballB = Matter.Bodies.circle(500, 100, 40, {
-			restitution: 0.8,
-			render: { fillStyle: 'red' },
-		});
 
-		// Устанавливаем начальную скорость
-		Matter.Body.setVelocity(ballA, { x: 2, y: 3 });
-		Matter.Body.setVelocity(ballB, { x: -3, y: -2 });
+		// Создаем "веревку" через валик
+		const ropeSegments = [];
+		const segmentCount = 10;
+		const segmentLength = 20;
+
+		for (let i = 0; i < segmentCount; i++) {
+			const segment = Matter.Bodies.circle(300, 150 + i * segmentLength, 5, {
+				mass: 0,
+				friction: 0.05,
+				render: { fillStyle: 'gray' },
+			});
+			ropeSegments.push(segment);
+		}
+
+		// Добавляем соединения между сегментами
+		const ropeConstraints = [];
+		for (let i = 0; i < ropeSegments.length - 1; i++) {
+			ropeConstraints.push(
+				Matter.Constraint.create({
+					bodyA: ropeSegments[i],
+					bodyB: ropeSegments[i + 1],
+					length: segmentLength,
+					stiffness: 1,
+					render: { visible: false },
+				})
+			);
+		}
+
+		// Соединяем первый сегмент с block1 и последний с block2
+		ropeConstraints.push(
+			Matter.Constraint.create({
+				bodyA: block1,
+				bodyB: ropeSegments[0],
+				length: 20,
+				stiffness: 1,
+				render: { visible: false },
+			})
+		);
+		ropeConstraints.push(
+			Matter.Constraint.create({
+				bodyA: block2,
+				bodyB: ropeSegments[ropeSegments.length - 1],
+				length: 20,
+				stiffness: 0.9,
+				render: { visible: false },
+			})
+		);
 
 		// Добавляем все тела в мир
-		Matter.World.add(world, [ground, leftWall, rightWall, topWall, ballA, ballB]);
+		Matter.World.add(world, [
+			ground,
+			leftWall,
+			rightWall,
+			topWall,
+			block1,
+			block2,
+			roller,
+			...ropeSegments,
+			...ropeConstraints,
+		]);
 
 		// Запускаем движок
 		Matter.Engine.run(engine);
