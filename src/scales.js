@@ -26,7 +26,7 @@ const Scales = ({ onDropObject, onReturnItem }) => {
             Swal.fire({
                 icon: 'warning',
                 title: 'Ошибка!',
-                text: 'Этот объект нельзя взвесить.',
+                text: 'Этот объект невесомый.',
                 confirmButtonText: 'Понятно',
             });
             return;
