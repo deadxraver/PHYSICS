@@ -19,7 +19,7 @@ function PhysicsVisualization() {
 				wireframes: false,
 				background: '#f0f0f0',
 			},
-		});
+		}); // lol
 
 		// Границы сцены
 		const ground = Matter.Bodies.rectangle(400, 390, 810, 20, { isStatic: true });
