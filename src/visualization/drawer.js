@@ -9,48 +9,79 @@ let rightWall;
 let ceiling;
 let render;
 let table;
+let roller;
+
+let block1, weight, block2;
 
 let allElements = [];
+const ropeSegments = [], segmentCount = 20, segmentLength = 1, ropeConstraints = [];
 
-let block1, block2, roller;
-const ropeSegments = [], segmentCount = 10, segmentLength = 2, ropeConstraints = [];
+const blockWidth = 40;
+const blockHeight = 20;
 
 function createStaticElements() {
-	ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, { isStatic: true });
-	leftWall = Matter.Bodies.rectangle(10, 200, 20, 400, { isStatic: true });
-	rightWall = Matter.Bodies.rectangle(window.canvasWidth - 40, 200, 20, 400, { isStatic: true });
-	ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 10, window.canvasWidth, 20, { isStatic: true });
-	table = Matter.Bodies.rectangle(3 * window.canvasWidth / 4, 300, window.canvasWidth / 2, 200, { isStatic: true });
-	roller = Matter.Bodies.circle(window.canvasWidth / 2, 200, 30, {
+	ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, { isStatic: true, collisionFilter: {isSensor: true,}, });
+	leftWall = Matter.Bodies.rectangle(10, 200, 20, 400, { isStatic: true, collisionFilter: {isSensor: true,}, });
+	rightWall = Matter.Bodies.rectangle(window.canvasWidth - 40, 200, 20, 400, { isStatic: true, collisionFilter: {isSensor: true,}, });
+	ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 10, window.canvasWidth, 20, { isStatic: true, collisionFilter: {isSensor: true,}, });
+	table = Matter.Bodies.rectangle(3 * window.canvasWidth / 4, 300, window.canvasWidth / 2, 200, { isStatic: true, collisionFilter: {isSensor: true,}, });
+	roller = Matter.Bodies.circle(window.canvasWidth / 2, 200, 15, {
 		isStatic: true,
 		render: { fillStyle: 'blue' },
+		collisionFilter: {isSensor: true,},
 	});
 	allElements.push(ground, leftWall, rightWall, ceiling, table, roller);
 }
 
 function createDynamicElements() {
-	block1 = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth, 200-20, 80, 40, {
+	block1 = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth, 200-20, blockWidth, blockHeight, {
 		mass: window.m1,
 		friction: window.k,
 		render: { fillStyle: 'black' },
+		collisionFilter: {
+			isSensor: true,
+		},
 	});
 
-	block2 = Matter.Bodies.rectangle(3.5/4 * window.canvasWidth, 200-20, 80, 40, {
+	block2 = Matter.Bodies.rectangle(3.5/4 * window.canvasWidth, 200-20, blockWidth, blockHeight, {
 		mass: window.m2,
 		friction: window.k,
 		render: { fillStyle: 'black' },
+		collisionFilter: {
+			isSensor: true,
+		},
 	});
-	allElements.push(block1, block2);
+
+	allElements.push(
+		Matter.Constraint.create({
+			mass: 0,
+			bodyA: block1,
+			bodyB: block2,
+			length: 100,
+			stiffness: 1,
+			// render: { visible: false },
+		})
+	);
+
+	weight = Matter.Bodies.rectangle(1.5/4 * window.canvasWidth, 200-20, blockHeight, blockHeight, {
+		mass: window.m2,
+		friction: window.k,
+		render: { fillStyle: 'black' },
+		collisionFilter: {
+			isSensor: true,
+		},
+	});
+	allElements.push(block1, block2, weight);
 }
 
 function processRopes() {
 	for (let i = 0; i < segmentCount; i++) {
-		const segment = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth + i * segmentLength, 200-20, 1, 5, {
+		const segment = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth + i * segmentLength, 200-20, 2, 5, {
 			mass: 0,
 			friction: 0.05,
 			render: { visible: false },
 			collisionFilter: {
-				group: -1,
+				isSensor: true,
 			},
 		});
 		ropeSegments.push(segment);
@@ -76,7 +107,7 @@ function processRopes() {
 			mass: 0,
 			bodyA: block1,
 			bodyB: ropeSegments[0],
-			length: 80/2 + 4,
+			length: blockWidth/2 + 4,
 			stiffness: 1,
 			// render: { visible: false },
 		})
@@ -84,9 +115,9 @@ function processRopes() {
 	ropeConstraints.push(
 		Matter.Constraint.create({
 			mass: 0,
-			bodyA: block2,
+			bodyA: weight,
 			bodyB: ropeSegments[ropeSegments.length - 1],
-			length: 80/2 + 4,
+			length: blockHeight/2 + 4,
 			stiffness: 1,
 			// render: { visible: false },
 		})
@@ -101,6 +132,8 @@ function PhysicsVisualization() {
 		// Создаем движок и мир
 		const engine = Matter.Engine.create();
 		const world = engine.world;
+		engine.positionIterations = 10;
+		engine.velocityIterations = 10;
 
 		// Создаем рендер
 		render = Matter.Render.create({

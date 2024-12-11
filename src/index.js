@@ -53,11 +53,11 @@ function TimerComponent({onStart}) {
 
 function generateVars() {
 	window.k = Math.random() * 0.99 + 0.01;
-	const rangeM = 2.5 - .5;
-	const rangeM0 = 3 - 1;
-	window.m1 = 0.5 + Math.random() * rangeM;
-	window.m2 = 0.5 + Math.random() * rangeM;
-	window.m0 = 1 + Math.random() * rangeM0;
+	const rangeM = 0.4;
+	const rangeM0 = 0.4;
+	window.m1 = 0.1 + Math.random() * rangeM;
+	window.m2 = 0.1 + Math.random() * rangeM;
+	window.m0 = 0.4 + Math.random() * rangeM0;
 	window.g = 9.8;
 }
 
