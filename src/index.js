@@ -43,7 +43,7 @@ function TimerComponent({onStart}) {
 			<div className="timer-container">
 				<label htmlFor="timer"> таймер </label>
 				<div className="timer" id="timer">{time}</div>
-				<button className="start-stop-button" onClick={startTimer} disabled={isRunning}>Пуск</button>
+				<button className="start-stop-button" onClick={handleStart} disabled={isRunning}>Пуск</button>
 				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
 
 			</div>
