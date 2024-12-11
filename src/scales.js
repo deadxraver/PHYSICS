@@ -1,29 +1,64 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObject }) => {
-    const imageStyle = {
-        width: '200px',
-        height: '200px',
-        cursor: 'pointer',
-        position: 'relative',
-    };
+    const canvasRef = useRef(null);
 
-    const overlayStyle = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        color: 'black',
-        textAlign: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        padding: '10px',
-        borderRadius: '5px',
-    };
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        const image = new Image();
+        image.src = 'scales.png';
+
+        const drawScales = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        };
+
+        image.onload = () => {
+            drawScales();
+            if (selectedObject) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+                ctx.font = '14px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                switch (selectedObject.type) {
+                    case 'rectangle':
+                        ctx.fillRect(100, 100, 100, 50);
+                        ctx.fillStyle = 'white';
+                        ctx.fillText(selectedObject.label, 150, 125);
+                        ctx.fillText(`${selectedObject.weight} кг`, 150, 145);
+                        break;
+                    case 'circle':
+                        ctx.beginPath();
+                        ctx.arc(150, 150, 25, 0, 2 * Math.PI);
+                        ctx.fill();
+                        ctx.fillStyle = 'white';
+                        ctx.fillText(selectedObject.label, 150, 150);
+                        ctx.fillText(`${selectedObject.weight} кг`, 150, 170);
+                        break;
+                    case 'string':
+                        ctx.fillRect(100, 200, 100, 10);
+                        ctx.fillStyle = 'white';
+                        ctx.fillText(selectedObject.label, 150, 205);
+                        ctx.fillText(`${selectedObject.weight} кг`, 150, 225);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        };
+
+        if (!selectedObject) {
+            drawScales();
+        }
+    }, [selectedObject]);
 
     const handlePlaceOnScales = () => {
         if (selectedObjectState) {
             onPlace(selectedObjectState);
             setSelectedObject(null);
+        } else {
+            onPlace(null);
         }
     };
 
@@ -35,21 +70,12 @@ const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObjec
             }}
             onClick={handlePlaceOnScales}
         >
-            <img
-                src="scales.png"
-                alt="Весы"
-                style={imageStyle}
+            <canvas
+                ref={canvasRef}
+                width={200}
+                height={200}
+                style={{ cursor: 'pointer' }}
             />
-            <div style={overlayStyle}>
-                {selectedObject ? (
-                    <>
-                        <p>Объект: {selectedObject.label}</p>
-                        <p>Вес: {selectedObject.weight} кг</p>
-                    </>
-                ) : (
-                    <p>Кликните, чтобы положить объект</p>
-                )}
-            </div>
         </div>
     );
 };

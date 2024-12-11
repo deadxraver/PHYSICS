@@ -10,13 +10,23 @@ import Form from "./form";
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
 	const [objectOnScales, setObjectOnScales] = useState(null);
+
+	const handleSelect = (item) => {
+		if (item && selectedObject && selectedObject.label === item.label) {
+			setObjectOnScales(null);
+			setSelectedObject(null);
+		} else {
+			setSelectedObject(item);
+			setObjectOnScales(null); // Clear the scales when a new item is selected
+		}
+	};
+
 	return (
-		<div style={{display: 'flex', justifyContent: 'space-around'}}>
-			<Inventory onSelect={setSelectedObject}/>
-			<Scales selectedObject={objectOnScales} onPlace={setObjectOnScales} selectedObjectState={selectedObject}
-					setSelectedObject={setSelectedObject}/>
+		<div style={{ display: 'flex', justifyContent: 'space-around' }}>
+			<Inventory onSelect={handleSelect} />
+			<Scales selectedObject={objectOnScales} onPlace={setObjectOnScales} selectedObjectState={selectedObject} setSelectedObject={setSelectedObject} />
 		</div>
-	)
+	);
 }
 
 function TimerComponent() {
