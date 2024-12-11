@@ -7,6 +7,7 @@ import Scales from "./scales";
 import Inventory from "./inventory";
 import Form from "./form";
 
+
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
 	const [objectOnScales, setObjectOnScales] = useState(null);
@@ -29,10 +30,12 @@ function TimerComponent({onStart}) {
 
 	return (
 		<>
-			<button onClick={handleStart} disabled={isRunning}>Пуск</button>
-			<button onClick={stopTimer} disabled={!isRunning}>Стоп</button>
 			<div className="timer-container">
-				<div className="timer">{time}</div>
+				<label htmlFor="timer"> таймер </label>
+				<div className="timer" id="timer">{time}</div>
+				<button className="start-stop-button" onClick={startTimer} disabled={isRunning}>Пуск</button>
+				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
+
 			</div>
 		</>
 	)

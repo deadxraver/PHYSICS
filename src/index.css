@@ -1,15 +1,21 @@
-body > .header:not{
+body > .header:not {
     font-family: Arial, sans-serif;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
 }
-#root{
+
+#root {
     text-align: center;
+    display: flex;
+    margin-top: 30px;
+    font-family: Arial;
 }
+
 .header {
     font-family: Arial, sans-serif;
     background-color: lavenderblush;
@@ -31,17 +37,41 @@ body > .header:not{
     vertical-align: middle;
     font-size: 2rem;
 }
-button {
+
+.start-stop-button {
     margin: 5px;
     padding: 10px 20px;
-    font-size: 2rem;
+    font-size: 1.3rem;
     cursor: pointer;
-    width: 150px;
-    height:100px;
+    width: 130px;
+    height: 90px;
     background-color: lavenderblush;
     color: black;
     text-align: center;
     font-weight: bold;
+    border: 1px solid black;
+}
 
+.start-stop-button:hover {
+    background-color: lavender;
+}
 
+.check-button {
+    background-color: rgba(87, 255, 9, 0.5);
+    width: 200px;
+    border: 1px solid black;
+    height: 70px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#resultForm {
+    background-color: lavenderblush;
+    padding: 15px;
+}
+ label {
+
+    font-weight: bold;
+    font-family: Arial;
+    font-size: 22px;
 }
