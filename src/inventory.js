@@ -67,7 +67,7 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
 
     return (
         <div
-            style={{ border: '1px solid black', padding: '10px', width: '150px', backgroundColor: 'lavenderblush' }}
+            style={{ border: '1px solid black', padding: '10px', width: '150px', backgroundColor: '#f6cddb' }}
             onDrop={(e) => {
                 e.preventDefault();
                 try {

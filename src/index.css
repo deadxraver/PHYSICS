@@ -18,7 +18,7 @@ body > .header:not {
 
 .header {
     font-family: Arial, sans-serif;
-    background-color: lavenderblush;
+    background-color: #f6cddb;
     text-align: center;
 }
 
@@ -45,7 +45,7 @@ body > .header:not {
     cursor: pointer;
     width: 130px;
     height: 90px;
-    background-color: lavenderblush;
+    background-color: #f6cddb;
     color: black;
     text-align: center;
     font-weight: bold;
@@ -53,25 +53,34 @@ body > .header:not {
 }
 
 .start-stop-button:hover {
-    background-color: lavender;
+    background-color: #e6b8c7;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 .start-stop-button:disabled {
-    background-color: #d3d3d3; /* Серый цвет для отключенной кнопки */
-    color: #a0a0a0; /* Более светлый цвет текста */
-    cursor: not-allowed; /* Устанавливаем курсор "недоступен" */
+    background-color: #d3d3d3;
+    color: #a0a0a0;
+    cursor: not-allowed;
 }
 
-.check-button {
-    background-color: rgba(87, 255, 9, 0.5);
-    width: 200px;
-    border: 1px solid black;
-    height: 70px;
-    font-size: 1.3rem;
-    font-weight: bold;
+   .check-button {
+       background-color: rgba(115, 250, 54, 0.66);
+       width: 200px;
+       border: 1px solid black;
+       height: 70px;
+       font-size: 1.3rem;
+       font-weight: bold;
+       border-radius: 10px;
+   }
+
+.check-button:hover {
+    background-color: rgba(84, 198, 28, 0.71);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 #resultForm {
-    background-color: lavenderblush;
+    background-color: #f6cddb;
     padding: 15px;
 }
 label {

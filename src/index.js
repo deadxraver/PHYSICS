@@ -8,6 +8,7 @@ import Inventory from "./inventory";
 import Form from "./form";
 import Matter from 'matter-js'
 
+
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
 	const [objectOnScales, setObjectOnScales] = useState(null);
