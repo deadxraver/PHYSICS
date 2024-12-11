@@ -43,7 +43,7 @@ const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObjec
             <div style={overlayStyle}>
                 {selectedObject ? (
                     <>
-                        <p>Объект: {selectedObject.name}</p>
+                        <p>Объект: {selectedObject.label}</p>
                         <p>Вес: {selectedObject.weight} кг</p>
                     </>
                 ) : (

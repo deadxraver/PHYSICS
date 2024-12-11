@@ -20,8 +20,14 @@ function ScalesComponent() {
 	)
 }
 
-function TimerComponent() {
+function TimerComponent({onStart}) {
 	const {time, isRunning, startTimer, stopTimer} = useTimer();
+
+	const handleStart = () => {
+		startTimer();
+		onStart();
+	};
+
 	return (
 		<>
 			<div className="timer-container">
@@ -35,12 +41,29 @@ function TimerComponent() {
 	)
 }
 
-function App() {
+function generateVars() {
+	window.k = Math.random() * 0.99 + 0.01;
+	const rangeM = 2.5 - .5;
+	const rangeM0 = 3 - 1;
+	window.m1 = 0.5 + Math.random() * rangeM;
+	window.m2 = 0.5 + Math.random() * rangeM;
+	window.m0 = 1 + Math.random() * rangeM0;
+}
+
+function declareVars() {
+	do {
+		generateVars();
+	} while ((window.m1 + window.m2) * window.k > window.m0 + 0.1);
+}
+
+export function App() {
+	declareVars();
+	const [showPhysics, setShowPhysics] = useState(false);
 	return (
 		<>
 			<ScalesComponent/>
-			<PhysicsVisualization/>
-			<TimerComponent/>
+			{showPhysics && <PhysicsVisualization/>}
+			<TimerComponent onStart={() => setShowPhysics(true)}/>
 			<Form/>
 		</>
 	)
