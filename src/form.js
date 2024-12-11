@@ -11,10 +11,10 @@ function ValidationForm() {
     const [TValid, setTValid] = useState(null);
 
     // Заданные значения для проверки
-    const m0 = window.m0.toFixed(2);
-    const m1 = window.m1.toFixed(2);
-    const m2 = window.m2.toFixed(2);
-    const correctK = window.k.toFixed(2);
+    const m0 = parseFloat(window.m0.toFixed(2));
+    const m1 = parseFloat(window.m1.toFixed(2));
+    const m2 = parseFloat(window.m2.toFixed(2));
+    const correctK = parseFloat(window.k.toFixed(2));
     const correctT = (m2 * m0 * window.g * (1 + correctK)) / (m0 + m1 + m2);
 
     const handleSubmit = (e) => {
