@@ -179,8 +179,7 @@ function PhysicsVisualization() {
 				width: window.canvasWidth - 30,
 				height: 400,
 				wireframes: false,
-				background: 'lab.jpg',
-				// background: 'grey',
+				background: 'grey',
 			},
 		});
 
@@ -208,19 +207,6 @@ function PhysicsVisualization() {
 			},
 		});
 		Matter.World.add(world, mouseConstraint);
-
-		// let gridBackground = Matter.Bodies.rectangle(0, 0, 1, 1, {
-		// 	isStatic: true,
-		// 	isSensor: true,
-		// 	render: {
-		// 		sprite: {
-		// 			texture: "lab.jpg",
-		// 			xScale: window.canvasWidth,
-		// 			yScale: 400
-		// 		}
-		// 	}
-		// });
-		// Matter.World.add(world, gridBackground);
 
 		// Запускаем движок
 		Matter.Engine.run(engine);
