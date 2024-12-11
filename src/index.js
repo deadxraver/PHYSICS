@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
-import {createRoot} from 'react-dom/client';
+import React, { useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import './index.css';
-import {useTimer} from './timer';
+import { useTimer } from './timer';
 import PhysicsVisualization from "./visualization/drawer";
 import Scales from "./scales";
 import Inventory from "./inventory";
 import Form from "./form";
-
 
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
@@ -22,16 +21,50 @@ function ScalesComponent() {
 		}
 	};
 
+	const handleDragStart = (event, item) => {
+		if (event.dataTransfer) {
+			event.dataTransfer.setData('application/json', JSON.stringify(item));
+		} else {
+			console.error('DragStart event missing dataTransfer');
+		}
+	};
+
+	const handleDrop = (event) => {
+		if (event.preventDefault) event.preventDefault();
+		if (event.dataTransfer) {
+			try {
+				const data = event.dataTransfer.getData('application/json');
+				const droppedObject = JSON.parse(data);
+				setObjectOnScales(droppedObject);
+			} catch (error) {
+				console.error('Failed to handle drop event:', error);
+			}
+		} else {
+			console.error('Drop event missing dataTransfer');
+		}
+	};
+
+	const handleDragOver = (event) => {
+		if (event.preventDefault) event.preventDefault();
+	};
+
 	return (
 		<div style={{ display: 'flex', justifyContent: 'space-around' }}>
-			<Inventory onSelect={handleSelect} />
-			<Scales selectedObject={objectOnScales} onPlace={setObjectOnScales} selectedObjectState={selectedObject} setSelectedObject={setSelectedObject} />
+			<Inventory onSelect={handleSelect} onDragStart={handleDragStart} />
+			<Scales
+				selectedObject={objectOnScales}
+				onPlace={setObjectOnScales}
+				onDropObject={handleDrop}
+				onDragOver={handleDragOver}
+				selectedObjectState={selectedObject}
+				setSelectedObject={setSelectedObject}
+			/>
 		</div>
 	);
 }
 
-function TimerComponent({onStart}) {
-	const {time, isRunning, startTimer, stopTimer} = useTimer();
+function TimerComponent({ onStart }) {
+	const { time, isRunning, startTimer, stopTimer } = useTimer();
 
 	const handleStart = () => {
 		startTimer();
@@ -48,7 +81,7 @@ function TimerComponent({onStart}) {
 
 			</div>
 		</>
-	)
+	);
 }
 
 function generateVars() {
@@ -72,16 +105,16 @@ export function App() {
 	const [showPhysics, setShowPhysics] = useState(false);
 	return (
 		<>
-			<ScalesComponent/>
-			{showPhysics && <PhysicsVisualization/>}
-			<TimerComponent onStart={() => setShowPhysics(true)}/>
-			<Form/>
+			<ScalesComponent />
+			{showPhysics && <PhysicsVisualization />}
+			<TimerComponent onStart={() => setShowPhysics(true)} />
+			<Form />
 		</>
-	)
+	);
 }
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 root.render(
-	<App/>
+	<App />
 );
