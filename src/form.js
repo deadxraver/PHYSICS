@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+
+
 function ValidationForm() {
     const [k, setK] = useState('');
     const [T, setT] = useState('');
@@ -38,7 +40,7 @@ function ValidationForm() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} id="resultForm">
                 <div>
                     <label htmlFor="k">Введите k: </label>
                     <input
@@ -49,6 +51,7 @@ function ValidationForm() {
                         required
                     />
                 </div>
+                <br></br>
                 <div>
                     <label htmlFor="T">Введите T: </label>
                     <input
@@ -58,8 +61,11 @@ function ValidationForm() {
                         onChange={(e) => setT(e.target.value)}
                         required
                     />
+                    <br></br>
+                    <br></br>
+                    <button type="submit" className="check-button">Проверить</button>
                 </div>
-                <button type="submit">Проверить</button>
+
             </form>
             {message && <p>{message}</p>}
         </div>

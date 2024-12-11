@@ -7,6 +7,7 @@ import Scales from "./scales";
 import Inventory from "./inventory";
 import Form from "./form";
 
+
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
 	const [objectOnScales, setObjectOnScales] = useState(null);
@@ -29,25 +30,50 @@ function ScalesComponent() {
 	);
 }
 
-function TimerComponent() {
+function TimerComponent({onStart}) {
 	const {time, isRunning, startTimer, stopTimer} = useTimer();
+
+	const handleStart = () => {
+		startTimer();
+		onStart();
+	};
+
 	return (
 		<>
-			<button onClick={startTimer} disabled={isRunning}>Пуск</button>
-			<button onClick={stopTimer} disabled={!isRunning}>Стоп</button>
 			<div className="timer-container">
-				<div className="timer">{time}</div>
+				<label htmlFor="timer"> таймер </label>
+				<div className="timer" id="timer">{time}</div>
+				<button className="start-stop-button" onClick={startTimer} disabled={isRunning}>Пуск</button>
+				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
+
 			</div>
 		</>
 	)
 }
 
-function App() {
+function generateVars() {
+	window.k = Math.random() * 0.99 + 0.01;
+	const rangeM = 2.5 - .5;
+	const rangeM0 = 3 - 1;
+	window.m1 = 0.5 + Math.random() * rangeM;
+	window.m2 = 0.5 + Math.random() * rangeM;
+	window.m0 = 1 + Math.random() * rangeM0;
+}
+
+function declareVars() {
+	do {
+		generateVars();
+	} while ((window.m1 + window.m2) * window.k > window.m0 + 0.1);
+}
+
+export function App() {
+	declareVars();
+	const [showPhysics, setShowPhysics] = useState(false);
 	return (
 		<>
 			<ScalesComponent/>
-			<PhysicsVisualization/>
-			<TimerComponent/>
+			{showPhysics && <PhysicsVisualization/>}
+			<TimerComponent onStart={() => setShowPhysics(true)}/>
 			<Form/>
 		</>
 	)
