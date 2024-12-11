@@ -32,7 +32,6 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
 
     const returnItemToInventory = (item) => {
         setItems((prevItems) => {
-            // Предотвращаем добавление дубликатов элементов
             const itemExists = prevItems.some((i) => i.label === item.label);
             if (!itemExists) {
                 return [...prevItems, item];
