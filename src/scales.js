@@ -76,7 +76,7 @@ const Scales = ({ onDropObject, onReturnItem }) => {
                         width: '120px',
                         fontWeight: 'bold',
                         height: '50px',
-                        backgroundImage: placedObject.label === 'm2' ? 'url(resources/weight_v_momente.jpg)': 'url(resources/телега.jpg)',
+                        backgroundImage: placedObject.label === 'm0' ? 'url(resources/weight_v_momente.jpg)': 'url(resources/телега.jpg)',
                         backgroundSize: '100% 100%',
                         backgroundColor: '#FFC2D5FF',
                         border: '1px solid black',

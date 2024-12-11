@@ -9,6 +9,7 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
         { type: 'rectangle', label: 'm2', weight: window.m2.toFixed(2) },
         { type: 'string', label: 'Нить', weight: 0.0 },
         { type: 'circle', label: 'Блок', weight: 0.0 },
+        { type: 'linear', label: 'Линейка', weight: 0.0 },
     ]);
 
     const handleMouseEnter = (label) => setHoveredItem(label);
@@ -44,17 +45,19 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
         const isHovered = label === hoveredItem;
         const isDragging = label === draggingItem;
         const baseStyles = {
-            width: type === 'circle' ?  '60px' : '120px',
-            height: type === 'rectangle' ? '55px' : type === 'circle' ? '60px' : '0.1px',
+            width: type === 'circle' ?  '100px' : '120px',
+            height: type === 'rectangle' ? '55px' : type === 'circle' ? '100px' : '0.1px',
             margin: '10px',
             padding: '10px',
             border: '1px solid black',
             backgroundImage:  label === 'Нить' ? 'url(resources/нитка.jpg)' :
-                label === 'm2' ? 'url(resources/weight_before.jpg)' :
+                label === 'm0' ? 'url(resources/weight_before.jpg)' :
                     label === 'Блок' ? 'url(resources/колесо.png)' :
                                 'url(resources/телега.jpg)',
             backgroundSize: '100% 110%',
+            color: type === 'circle' ? 'white':'black',
             cursor: 'grab',
+            fontSize: type === 'circle' ? '30px' : 'normal',
             display: 'flex',
             fontWeight: 'bold',
             alignItems: 'center',
