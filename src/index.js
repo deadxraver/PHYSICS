@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
+import React, {useState} from 'react';
+import {createRoot} from 'react-dom/client';
 import './index.css';
-import { useTimer } from './timer';
+import {useTimer} from './timer';
 import PhysicsVisualization from "./visualization/drawer";
 import Scales from "./scales";
-import Inventory from "./inventory";
+import Inventory, {getSelectedItem} from "./inventory";
 import Form from "./form";
+
 
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
@@ -63,11 +64,13 @@ function ScalesComponent() {
 	);
 }
 
-function TimerComponent({ onStart }) {
-	const { time, isRunning, startTimer, stopTimer } = useTimer();
+function TimerComponent({onStart}) {
+	const {time, isRunning, hasStarted, startTimer, stopTimer} = useTimer();
 
 	const handleStart = () => {
-		startTimer();
+		if (!hasStarted) {
+			startTimer();
+		}
 		onStart();
 	};
 
@@ -76,7 +79,7 @@ function TimerComponent({ onStart }) {
 			<div className="timer-container">
 				<label htmlFor="timer"> таймер </label>
 				<div className="timer" id="timer">{time}</div>
-				<button className="start-stop-button" onClick={handleStart} disabled={isRunning}>Пуск</button>
+				<button className="start-stop-button" onClick={handleStart} disabled={isRunning || hasStarted}>Пуск</button>
 				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
 
 			</div>
@@ -92,6 +95,7 @@ function generateVars() {
 	window.m2 = 0.1 + Math.random() * rangeM;
 	window.m0 = 0.4 + Math.random() * rangeM0;
 	window.g = 9.8;
+	window.t = null;
 }
 
 function declareVars() {

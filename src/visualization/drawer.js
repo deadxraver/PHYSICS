@@ -14,7 +14,7 @@ let roller;
 let block1, weight, block2;
 
 let allElements = [];
-const ropeSegments = [], segmentCount = 20, segmentLength = 1, ropeConstraints = [];
+const ropeSegments = [], segmentCount = 20, segmentLength = 6, ropeConstraints = [];
 
 const blockWidth = 40;
 const blockHeight = 20;
@@ -30,7 +30,7 @@ function createStaticElements() {
 		render: { fillStyle: 'blue' },
 		collisionFilter: {isSensor: true,},
 	});
-	allElements.push(ground, leftWall, rightWall, ceiling, table, roller);
+	allElements.push(ground, leftWall, rightWall, ceiling, Matter.Body.create({ parts: [table, roller], isStatic: true }));
 }
 
 function createDynamicElements() {
@@ -76,7 +76,7 @@ function createDynamicElements() {
 
 function processRopes() {
 	for (let i = 0; i < segmentCount; i++) {
-		const segment = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth + i * segmentLength, 200-20, 2, 5, {
+		const segment = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth + i * segmentLength, 200-20, segmentLength, segmentLength, {
 			mass: 0,
 			friction: 0.05,
 			render: { visible: false },
@@ -94,7 +94,7 @@ function processRopes() {
 				mass: 0,
 				bodyA: ropeSegments[i],
 				bodyB: ropeSegments[i + 1],
-				length: segmentLength + 5,
+				length: segmentLength,
 				stiffness: 1,
 				// render: { visible: false },
 			})
