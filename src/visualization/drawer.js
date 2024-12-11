@@ -13,7 +13,7 @@ let table;
 let allElements = [];
 
 let block1, block2, roller;
-const ropeSegments = [], segmentCount = 25, segmentLength = 2, ropeConstraints = [];
+const ropeSegments = [], segmentCount = 10, segmentLength = 2, ropeConstraints = [];
 
 function createStaticElements() {
 	ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, { isStatic: true });
@@ -45,10 +45,10 @@ function createDynamicElements() {
 
 function processRopes() {
 	for (let i = 0; i < segmentCount; i++) {
-		const segment = Matter.Bodies.rectangle(300, 150 + i * segmentLength, segmentLength - 1, 5, {
+		const segment = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth + i * segmentLength, 200-20, 1, 5, {
 			mass: 0,
 			friction: 0.05,
-			render: { fillStyle: 'gray' },
+			render: { visible: false },
 			collisionFilter: {
 				group: -1,
 			},
@@ -60,6 +60,7 @@ function processRopes() {
 	for (let i = 0; i < ropeSegments.length - 1; i++) {
 		ropeConstraints.push(
 			Matter.Constraint.create({
+				mass: 0,
 				bodyA: ropeSegments[i],
 				bodyB: ropeSegments[i + 1],
 				length: segmentLength + 5,
@@ -72,6 +73,7 @@ function processRopes() {
 	// Соединяем первый сегмент с block1 и последний с block2
 	ropeConstraints.push(
 		Matter.Constraint.create({
+			mass: 0,
 			bodyA: block1,
 			bodyB: ropeSegments[0],
 			length: 80/2 + 4,
@@ -81,6 +83,7 @@ function processRopes() {
 	);
 	ropeConstraints.push(
 		Matter.Constraint.create({
+			mass: 0,
 			bodyA: block2,
 			bodyB: ropeSegments[ropeSegments.length - 1],
 			length: 80/2 + 4,
@@ -117,6 +120,19 @@ function PhysicsVisualization() {
 
 		// Добавляем все тела в мир
 		Matter.World.add(world, allElements);
+
+		const mouse = Matter.Mouse.create(render.canvas);
+		const mouseConstraint = Matter.MouseConstraint.create(engine, {
+			mouse: mouse,
+			constraint: {
+				stiffness: 0.2,
+				render: {
+					visible: false,
+				},
+			},
+		});
+		Matter.World.add(world, mouseConstraint);
+
 
 		// Запускаем движок
 		Matter.Engine.run(engine);
