@@ -1,11 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 
+window.canvasWidth = window.innerWidth / 2;
+
 let ground;
 let leftWall;
 let rightWall;
 let ceiling;
 let render;
+let table;
 
 let allElements = [];
 
@@ -13,32 +16,31 @@ let block1, block2, roller;
 const ropeSegments = [], segmentCount = 25, segmentLength = 2, ropeConstraints = [];
 
 function createStaticElements() {
-	ground = Matter.Bodies.rectangle(window.innerWidth / 2 - 30, 390, window.innerWidth, 20, { isStatic: true });
+	ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, { isStatic: true });
 	leftWall = Matter.Bodies.rectangle(10, 200, 20, 400, { isStatic: true });
-	rightWall = Matter.Bodies.rectangle(window.innerWidth - 40, 200, 20, 400, { isStatic: true });
-	ceiling = Matter.Bodies.rectangle(window.innerWidth / 2 - 30, 10, window.innerWidth, 20, { isStatic: true });
-	allElements.push(ground, leftWall, rightWall, ceiling);
+	rightWall = Matter.Bodies.rectangle(window.canvasWidth - 40, 200, 20, 400, { isStatic: true });
+	ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 10, window.canvasWidth, 20, { isStatic: true });
+	table = Matter.Bodies.rectangle(3 * window.canvasWidth / 4, 300, window.canvasWidth / 2, 200, { isStatic: true });
+	roller = Matter.Bodies.circle(window.canvasWidth / 2, 200, 30, {
+		isStatic: true,
+		render: { fillStyle: 'blue' },
+	});
+	allElements.push(ground, leftWall, rightWall, ceiling, table, roller);
 }
 
 function createDynamicElements() {
-	block1 = Matter.Bodies.rectangle(500, 300, 80, 40, {
+	block1 = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth, 200-20, 80, 40, {
 		mass: window.m1,
 		friction: window.k,
 		render: { fillStyle: 'black' },
 	});
 
-	block2 = Matter.Bodies.rectangle(200, 300, 80, 40, {
+	block2 = Matter.Bodies.rectangle(3.5/4 * window.canvasWidth, 200-20, 80, 40, {
 		mass: window.m2,
 		friction: window.k,
 		render: { fillStyle: 'black' },
 	});
-
-	// Создаем вращающийся валик
-	roller = Matter.Bodies.circle(300, 350, 20, {
-		isStatic: true,
-		render: { fillStyle: 'blue' },
-	});
-	allElements.push(roller, block1, block2);
+	allElements.push(block1, block2);
 }
 
 function processRopes() {
@@ -102,7 +104,7 @@ function PhysicsVisualization() {
 			element: sceneRef.current,
 			engine: engine,
 			options: {
-				width: window.innerWidth - 30,
+				width: window.canvasWidth - 30,
 				height: 400,
 				wireframes: false,
 				background: '#f0f0f0',
