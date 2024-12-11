@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Inventory = ({ onDragStart, onReturnItem, onItemClick }) => {
+const Inventory = ({ onDragStart, onReturnItem,  onItemClick }) => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const [draggingItem, setDraggingItem] = useState(null);
     const [items, setItems] = useState([
@@ -12,8 +12,16 @@ const Inventory = ({ onDragStart, onReturnItem, onItemClick }) => {
         { type: 'linear', label: 'Линейка', weight: 0.0 },
     ]);
 
-    const handleMouseEnter = (label) => setHoveredItem(label);
-    const handleMouseLeave = () => setHoveredItem(null);
+    const handleHover = (label) => {
+        const selectedItem = getSelectedItem(items, label);
+        console.log(selectedItem); // Для отладки
+    };
+
+
+
+
+    const handleMouseEnter = (label) => {setHoveredItem(label); handleHover(label)}
+    const handleMouseLeave = () => {setHoveredItem(null); window.clickedItem = null};
 
     const handleDragStart = (e, item) => {
         if (e.dataTransfer) {
@@ -45,17 +53,17 @@ const Inventory = ({ onDragStart, onReturnItem, onItemClick }) => {
         const isHovered = label === hoveredItem;
         const isDragging = label === draggingItem;
         const baseStyles = {
-            width: type === 'circle' ?  '100px' : label === 'm0' ? '80px' : '120px',
+            width: type === 'circle' ?  '100px' : '120px',
             height: type === 'rectangle' ? '55px' : type === 'circle' ? '100px' : '0.1px',
             margin: '10px',
             padding: '10px',
             border: '1px solid black',
             backgroundImage:  label === 'Нить' ? 'url(resources/нитка.jpg)' :
                 label === 'm0' ? 'url(resources/weight_before.jpg)' :
-                    label === 'Блок' ? 'url(resources/колесо.png)' :
-                        'url(resources/телега.jpg)',
-            backgroundSize: '100% 110%',
-            color: 'black',
+                    label === 'Блок' ? 'url(resources/колесо.png)' : label === 'Линейка' ? 'url(resources/линейка.jpg)'
+                                : 'url(resources/телега.jpg)',
+            backgroundSize: label === 'Блок' ? '100% 100%': label === 'Линейка'? '100% 100%': label === 'Нить'? '100% 100%':'100% 110%',
+            color: type === 'circle' ? 'white':'black',
             cursor: 'grab',
             fontSize: 'normal',
             display: 'flex',
@@ -127,4 +135,9 @@ const Inventory = ({ onDragStart, onReturnItem, onItemClick }) => {
     );
 };
 
+
+export const getSelectedItem = (items, label) => {
+    const filteredItems = items.filter(item => item.label === label);
+    return filteredItems.length > 0 ? filteredItems[0] : null;
+};
 export default Inventory;
