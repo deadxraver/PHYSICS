@@ -42,7 +42,7 @@ function ValidationForm() {
         <div>
             <form onSubmit={handleSubmit} id="resultForm">
                 <div>
-                    <label htmlFor="k">Введите k: </label>
+                    <label htmlFor="k">Введите коэффициент трения k: </label>
                     <input
                         type="number"
                         id="k"
@@ -53,7 +53,7 @@ function ValidationForm() {
                 </div>
                 <br></br>
                 <div>
-                    <label htmlFor="T">Введите T: </label>
+                    <label htmlFor="T">Введите силу натяжения нити T: </label>
                     <input
                         type="number"
                         id="T"

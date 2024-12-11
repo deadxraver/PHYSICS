@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import Swal from 'sweetalert2';
 
 const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObject }) => {
     const canvasRef = useRef(null);
@@ -23,24 +24,24 @@ const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObjec
                 ctx.textBaseline = 'middle';
                 switch (selectedObject.type) {
                     case 'rectangle':
-                        ctx.fillRect(100, 100, 100, 50);
+                        ctx.fillRect(90, 90, 100, 50); // Adjusted position
                         ctx.fillStyle = 'white';
-                        ctx.fillText(selectedObject.label, 150, 125);
-                        ctx.fillText(`${selectedObject.weight} кг`, 150, 145);
+                        ctx.fillText(selectedObject.label, 140, 115); // Adjusted position
+                        ctx.fillText(`${selectedObject.weight} кг`, 140, 135); // Adjusted position
                         break;
                     case 'circle':
                         ctx.beginPath();
-                        ctx.arc(150, 150, 25, 0, 2 * Math.PI);
+                        ctx.arc(140, 140, 25, 0, 2 * Math.PI); // Adjusted position
                         ctx.fill();
                         ctx.fillStyle = 'white';
-                        ctx.fillText(selectedObject.label, 150, 150);
-                        ctx.fillText(`${selectedObject.weight} кг`, 150, 170);
+                        ctx.fillText(selectedObject.label, 140, 140); // Adjusted position
+                        ctx.fillText(`${selectedObject.weight} кг`, 140, 160); // Adjusted position
                         break;
                     case 'string':
-                        ctx.fillRect(100, 200, 100, 10);
+                        ctx.fillRect(90, 190, 100, 10); // Adjusted position
                         ctx.fillStyle = 'white';
-                        ctx.fillText(selectedObject.label, 150, 205);
-                        ctx.fillText(`${selectedObject.weight} кг`, 150, 225);
+                        ctx.fillText(selectedObject.label, 140, 195); // Adjusted position
+                        ctx.fillText(`${selectedObject.weight} кг`, 140, 215); // Adjusted position
                         break;
                     default:
                         break;
@@ -55,6 +56,16 @@ const Scales = ({ selectedObject, onPlace, selectedObjectState, setSelectedObjec
 
     const handlePlaceOnScales = () => {
         if (selectedObjectState) {
+            if (selectedObjectState.weight === 0.0) {
+                // Используем SweetAlert2 для красивого уведомления
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ошибка!',
+                    text: 'Этот объект нельзя взвесить.',
+                    confirmButtonText: 'Понятно',
+                });
+                return;
+            }
             onPlace(selectedObjectState);
             setSelectedObject(null);
         } else {

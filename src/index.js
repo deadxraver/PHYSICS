@@ -18,7 +18,7 @@ function ScalesComponent() {
 			setSelectedObject(null);
 		} else {
 			setSelectedObject(item);
-			setObjectOnScales(null); // Clear the scales when a new item is selected
+			setObjectOnScales(null);
 		}
 	};
 

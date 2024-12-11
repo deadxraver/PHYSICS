@@ -68,8 +68,8 @@ const Inventory = ({ onSelect }) => {
         { type: 'rectangle', label: 'm0', weight: 1.0 },
         { type: 'rectangle', label: 'm1', weight: 1.5 },
         { type: 'rectangle', label: 'm2', weight: 2.0 },
-        { type: 'string', label: 'Нить', weight: 0.1 },
-        { type: 'circle', label: 'Блок', weight: 0.5 },
+        { type: 'string', label: 'Нить', weight: 0.0 },
+        { type: 'circle', label: 'Блок', weight: 0.0 },
     ];
 
     return (
