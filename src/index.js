@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
-import {createRoot} from 'react-dom/client';
+import React, { useState } from 'react';
+import { createRoot } from 'react-dom/client';
 import './index.css';
-import {useTimer} from './timer';
+import { useTimer } from './timer';
 import PhysicsVisualization from "./visualization/drawer";
 import Scales from "./scales";
 import Inventory from "./inventory";
 import Form from "./form";
-import Matter from 'matter-js'
-
+import Matter from 'matter-js';
 
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
@@ -48,9 +47,14 @@ function ScalesComponent() {
 		if (event.preventDefault) event.preventDefault();
 	};
 
+	const handleItemClick = (item) => {
+		console.log('Clicked item:', item);
+		// Handle the clicked item here
+	};
+
 	return (
-		<div style={{display: 'flex', justifyContent: 'space-around'}}>
-			<Inventory onSelect={handleSelect} onDragStart={handleDragStart}/>
+		<div style={{ display: 'flex', justifyContent: 'space-around' }}>
+			<Inventory onSelect={handleSelect} onDragStart={handleDragStart} onItemClick={handleItemClick} />
 			<Scales
 				selectedObject={objectOnScales}
 				onPlace={setObjectOnScales}
@@ -64,7 +68,7 @@ function ScalesComponent() {
 }
 
 function TimerComponent() {
-	const {time, isRunning, hasStarted, startTimer, stopTimer} = useTimer();
+	const { time, isRunning, hasStarted, startTimer, stopTimer } = useTimer();
 
 	const handleStart = () => {
 		if (!hasStarted) {
@@ -80,10 +84,9 @@ function TimerComponent() {
 				<div className="timer" id="timer">{time}</div>
 				<button className="start-stop-button" onClick={handleStart} disabled={isRunning || hasStarted}>Пуск</button>
 				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
-
 			</div>
 		</>
-	)
+	);
 }
 
 function removeRedline() {
@@ -95,7 +98,7 @@ function generateVars() {
 	const rangeM = 0.4;
 	window.m1 = 0.3 + Math.random() * rangeM;
 	window.m2 = 0.3 + Math.random() * rangeM;
-	window.m0 = (window.m1 + window.m2) + 0.2  + Math.random() * 0.2;
+	window.m0 = (window.m1 + window.m2) + 0.2 + Math.random() * 0.2;
 	window.g = 9.8;
 	window.t = null;
 }
@@ -106,29 +109,20 @@ function declareVars() {
 	} while ((window.m1 + window.m2) * window.k > window.m0 + 0.1);
 }
 
-
-//
-// let canvas = document.getElementsByTagName("canvas");
-//canvas.addEventListener('click', handleCanvasClick)
-// function handleCanvasClick(){
-// 	if (getSelectedItem() === 'Линейка') console.log("жопаппапаа")
-// }
-
-// console.log(getSelectedItem())
 export function App() {
 	declareVars();
 	return (
 		<>
-			<ScalesComponent/>
-			<PhysicsVisualization/>
-			<TimerComponent/>
-			<Form/>
+			<ScalesComponent />
+			<PhysicsVisualization />
+			<TimerComponent />
+			<Form />
 		</>
-	)
+	);
 }
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 root.render(
-	<App/>
+	<App />
 );

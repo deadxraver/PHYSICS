@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Inventory = ({ onDragStart, onReturnItem }) => {
+const Inventory = ({ onDragStart, onReturnItem, onItemClick }) => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const [draggingItem, setDraggingItem] = useState(null);
     const [items, setItems] = useState([
@@ -103,6 +103,7 @@ const Inventory = ({ onDragStart, onReturnItem }) => {
                     onMouseLeave={handleMouseLeave}
                     onDragStart={(e) => handleDragStart(e, item)}
                     onDragEnd={handleDragEnd}
+                    onClick={() => onItemClick(item)}
                 >
                     <div style={getItemStyle(item.type, item.label)}>
                         <div style={{
