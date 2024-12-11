@@ -1,1 +1,0 @@
-scp -r public src deadxraver@super-shershni.ru:~/physics/
