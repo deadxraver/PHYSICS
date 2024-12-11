@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 
 window.canvasWidth = window.innerWidth / 2;
+let engine, world;
 
 let allElements = [];
 const ropeSegments = [], segmentCount = 40, segmentLength = 4, ropeConstraints = [];
@@ -25,7 +26,7 @@ function createStaticElements() {
 }
 
 function createDynamicElements() {
-	window.block1 = Matter.Bodies.rectangle(2.5/4 * window.canvasWidth, 200-20, blockWidth, blockHeight, {
+	window.block1 = Matter.Bodies.rectangle(.5/4 * window.canvasWidth+40, 200-20, blockWidth, blockHeight, {
 		mass: window.m1,
 		friction: window.k,
 		render: { fillStyle: 'black' },
@@ -34,7 +35,7 @@ function createDynamicElements() {
 		},
 	});
 
-	window.block2 = Matter.Bodies.rectangle(3.5/4 * window.canvasWidth, 200-20, blockWidth, blockHeight, {
+	window.block2 = Matter.Bodies.rectangle(.5/4 * window.canvasWidth, 200-20, blockWidth, blockHeight, {
 		mass: window.m2,
 		friction: window.k,
 		render: { fillStyle: 'black' },
@@ -54,7 +55,7 @@ function createDynamicElements() {
 		})
 	);
 
-	window.weight = Matter.Bodies.rectangle(1.5/4 * window.canvasWidth, 200-20, blockHeight, blockHeight, {
+	window.weight = Matter.Bodies.rectangle(.5/4 * window.canvasWidth, 200-60, blockHeight, blockHeight, {
 		mass: window.m2,
 		friction: window.k,
 		render: { fillStyle: 'black' },
@@ -114,6 +115,29 @@ function processRopes() {
 		})
 	);
 	allElements.push(...ropeSegments, ...ropeConstraints);
+	Matter.Events.on(engine, 'collisionActive', (event) => {
+		const pairs = event.pairs;
+		pairs.forEach((pair) => {
+			const { bodyA, bodyB } = pair;
+			if ((bodyA === window.roller && ropeSegments.includes(bodyB)) || (bodyB === window.roller && ropeSegments.includes(bodyA))) {
+				const ropeSegment = bodyA === window.roller ? bodyB : bodyA; // r = 5
+				if ((ropeSegment.position.x - window.roller.position.x)**2 + (ropeSegment.position.y - window.roller.position.y)**2 < 7**2) {
+					Matter.World.remove(world, ropeSegment);
+					const constraintsToRemove = ropeConstraints.filter(constraint =>
+						constraint.bodyA === ropeSegment || constraint.bodyB === ropeSegment
+					);
+					constraintsToRemove.forEach(constraint => {
+						Matter.World.remove(world, constraint);
+						const constraintIndex = ropeConstraints.indexOf(constraint);
+						if (constraintIndex !== -1) {
+							ropeConstraints.splice(constraintIndex, 1);
+						}
+					});
+				}
+			}
+		});
+
+	});
 }
 
 function PhysicsVisualization() {
@@ -121,8 +145,8 @@ function PhysicsVisualization() {
 
 	useEffect(() => {
 		// Создаем движок и мир
-		const engine = window.engine = Matter.Engine.create();
-		const world = engine.world;
+		engine = window.engine = Matter.Engine.create();
+		world = engine.world;
 		engine.positionIterations = 10;
 		engine.velocityIterations = 10;
 
