@@ -70,7 +70,7 @@ function ScalesComponent() {
 			else Swal.fire({
 				icon: 'success',
 				title: 'Значение h',
-				text: `${h.toFixed(2)}`,
+				text: `${h.toFixed(2)}м`,
 				confirmButtonText: 'Я записал!',
 			});
 		}

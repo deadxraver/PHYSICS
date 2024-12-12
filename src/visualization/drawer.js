@@ -13,16 +13,16 @@ const blockWidth = 30;
 const blockHeight = 20;
 
 function createStaticElements() {
-	window.ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 390, window.canvasWidth, 20, {
+	window.ground = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 397, window.canvasWidth, 8, {
 		isStatic: true,
 		collisionFilter: {isSensor: true,},
 	});
-	window.leftWall = Matter.Bodies.rectangle(10, 200, 20, 400, {isStatic: true, collisionFilter: {isSensor: true,},});
-	window.rightWall = Matter.Bodies.rectangle(window.canvasWidth - 40, 200, 20, 400, {
+	window.leftWall = Matter.Bodies.rectangle(5, 200, 10, 400, {isStatic: true, collisionFilter: {isSensor: true,},});
+	window.rightWall = Matter.Bodies.rectangle(window.canvasWidth - 35, 200, 10, 400, {
 		isStatic: true,
 		collisionFilter: {isSensor: true,},
 	});
-	window.ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 10, window.canvasWidth, 20, {
+	window.ceiling = Matter.Bodies.rectangle(window.canvasWidth / 2 - 30, 2, window.canvasWidth, 8, {
 		isStatic: true,
 		collisionFilter: {isSensor: true,},
 	});
@@ -194,7 +194,8 @@ function PhysicsVisualization() {
 				width: window.canvasWidth - 30,
 				height: 400,
 				wireframes: false,
-				background: 'grey',
+				background: "lightgray",
+
 			},
 		});
 
@@ -202,9 +203,9 @@ function PhysicsVisualization() {
 		createDynamicElements();
 		processRopes();
 
-		window.redline = Matter.Bodies.rectangle(window.canvasWidth / 4, 240, window.canvasWidth / 2, 10, {
+		window.redline = Matter.Bodies.rectangle(window.canvasWidth / 4, 240, window.canvasWidth / 2 + 20, 4, {
 			isStatic: true,
-			render: {fillStyle: 'red'}
+			render: {fillStyle: '#f6cddb'}
 		});
 		allElements.push(window.redline);
 
