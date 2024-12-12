@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import Matter from 'matter-js';
+import Swal from 'sweetalert2';
 
 window.canvasWidth = window.innerWidth / 2;
 console.log(window.canvasWidth / 2);
@@ -161,6 +162,12 @@ function processRopes() {
 						if (constraintIndex !== -1) {
 							ropeConstraints.splice(constraintIndex, 1);
 						}
+					});
+					Swal.fire({
+						icon: 'warning',
+						title: 'Упс',
+						text: 'Нитка порвалась, начните эксперимент заново',
+						confirmButtonText: 'Хорошо',
 					});
 				}
 			}
