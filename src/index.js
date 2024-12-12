@@ -105,6 +105,7 @@ function TimerComponent() {
 		}
 	};
 
+	const refresh = () => window.location.reload();
 	return (
 		<>
 			<div className="timer-container">
@@ -112,6 +113,7 @@ function TimerComponent() {
 				<div className="timer" id="timer">{time}</div>
 				<button className="start-stop-button" onClick={handleStart} disabled={isRunning || hasStarted}>Пуск</button>
 				<button className="start-stop-button" onClick={stopTimer} disabled={!isRunning}>Стоп</button>
+				<button className="start-stop-button" onClick={refresh}>Заново</button>
 			</div>
 		</>
 	);
