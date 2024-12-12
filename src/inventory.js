@@ -130,6 +130,7 @@ const Inventory = ({ onDragStart, onReturnItem,  onItemClick }) => {
                     </div>
                 </div>
             ))}
+            <h5>Чтобы измерить смещение тележек, нажмите сначала на линейку, а затем - на пройденный тележками путь</h5>
         </div>
     );
 };
