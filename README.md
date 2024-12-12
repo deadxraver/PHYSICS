@@ -26,14 +26,14 @@ $T_{12}=\frac{m_2 m_0 g (1 + k)}{m_0 + m_1 + m_2}$
 - Matter.js
 
 ### Это мы
-![img.png](img.png) \
-[даня чими](https://github.com/deadxraver)
+#### [даня чими](https://github.com/deadxraver)
+![img.png](img.png)
 
-![img_1.png](img_1.png) \
-[геруня солнышко](https://github.com/GeruniaSun)
+#### [геруня солнышко](https://github.com/GeruniaSun)
+![img_1.png](img_1.png)
 
-![img_2.png](img_2.png) \
-[алена динах](https://github.com/dllnnx)
+#### [алена динах](https://github.com/dllnnx)
+![img_2.png](img_2.png)
 
-![img_3.png](img_3.png) \
-[катяпим](https://github.com/p11menova)
+#### [катяпим](https://github.com/p11menova)
+![img_3.png](img_3.png)

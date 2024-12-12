@@ -54,6 +54,7 @@ const Scales = ({ onDropObject, onReturnItem }) => {
             style={{
                 position: 'relative',
                 display: 'inline-block',
+                textAlign: 'center',
             }}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
@@ -91,6 +92,7 @@ const Scales = ({ onDropObject, onReturnItem }) => {
                     </div>
                 </div>
             )}
+            <div style={{ marginLeft:"-40px", marginTop: "-10px", fontWeight: 'bold' }}>Весы</div>
         </div>
     );
 };
