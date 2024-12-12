@@ -63,7 +63,7 @@ const Inventory = ({ onDragStart, onReturnItem,  onItemClick }) => {
                     label === 'Блок' ? 'url(resources/колесо.png)' : label === 'Линейка' ? 'url(resources/линейка.jpg)'
                                 : 'url(resources/телега.jpg)',
             backgroundSize: label === 'Блок' ? '100% 100%': label === 'Линейка'? '100% 100%': label === 'Нить'? '100% 100%':'100% 110%',
-            color: type === 'circle' ? 'white':'black',
+            color: 'black',
             cursor: 'grab',
             fontSize: 'normal',
             display: 'flex',
