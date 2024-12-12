@@ -21,7 +21,7 @@ const Inventory = ({ onDragStart, onReturnItem,  onItemClick }) => {
 
 
     const handleMouseEnter = (label) => {setHoveredItem(label); handleHover(label)}
-    const handleMouseLeave = () => {setHoveredItem(null); window.clickedItem = null};
+    const handleMouseLeave = () => {setHoveredItem(null);};
 
     const handleDragStart = (e, item) => {
         if (e.dataTransfer) {
@@ -63,7 +63,6 @@ const Inventory = ({ onDragStart, onReturnItem,  onItemClick }) => {
                     label === 'Блок' ? 'url(resources/колесо.png)' : label === 'Линейка' ? 'url(resources/линейка.jpg)'
                                 : 'url(resources/телега.jpg)',
             backgroundSize: label === 'Блок' ? '100% 100%': label === 'Линейка'? '100% 100%': label === 'Нить'? '100% 100%':'100% 110%',
-            color: type === 'circle' ? 'white':'black',
             cursor: 'grab',
             fontSize: 'normal',
             display: 'flex',

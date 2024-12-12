@@ -7,6 +7,8 @@ import Scales from "./scales";
 import Inventory from "./inventory";
 import Form from "./form";
 import Matter from 'matter-js';
+import Swal from "sweetalert2";
+import {count_h} from './calculations'
 
 function ScalesComponent() {
 	const [selectedObject, setSelectedObject] = useState(null);
@@ -48,10 +50,36 @@ function ScalesComponent() {
 	};
 
 	const handleItemClick = (item) => {
-		console.log('Clicked item:', item);
-		window.clickedItem = item;
+		console.log('Clicked item:', item.label);
+		window.clickedItem = item.label;
 	};
+	function handleCanvasClick(){
+		console.log('window.t', window.t);
 
+		if (window.clickedItem === "Линейка"){
+			let h = count_h(window.t);
+			console.log(h, typeof h);
+			if (isNaN(h) || h === 0 ){
+				Swal.fire({
+					icon: 'warning',
+					title: 'НЕЕЕЕТ',
+					text: 'Линейку можно применить только после нажатия на кнопку СТОП',
+					confirmButtonText: 'Понятно',
+				});
+			}
+			else Swal.fire({
+				icon: 'success',
+				title: 'Значение h',
+				text: `${h.toFixed(2)}`,
+				confirmButtonText: 'Я записал!',
+			});
+		}
+	}
+	let canvas = null;
+	setTimeout(()=>{
+		canvas = document.getElementsByTagName("canvas")[1]
+		canvas.addEventListener('click', handleCanvasClick)
+	}, 800);
 	return (
 		<div style={{ display: 'flex', justifyContent: 'space-around' }}>
 			<Inventory onSelect={handleSelect} onDragStart={handleDragStart} onItemClick={handleItemClick} />
@@ -96,9 +124,10 @@ function removeRedline() {
 function generateVars() {
 	window.k = Math.random() * 0.99 + 0.01;
 	const rangeM = 0.4;
-	window.m1 = 0.3 + Math.random() * rangeM;
-	window.m2 = 0.3 + Math.random() * rangeM;
-	window.m0 = (window.m1 + window.m2) + 0.2 + Math.random() * 0.2;
+	window.m1 = parseFloat((0.3 + Math.random() * rangeM).toFixed(2));
+	window.m2 = parseFloat((0.3 + Math.random() * rangeM).toFixed(2));
+	window.m0 = ((window.m1 + window.m2) + 0.2 + Math.random() * 0.2);
+	window.m0 = parseFloat(window.m0.toFixed(2));
 	window.g = 9.8;
 	window.t = null;
 }
@@ -120,6 +149,8 @@ export function App() {
 		</>
 	);
 }
+
+
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);

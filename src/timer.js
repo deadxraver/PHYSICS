@@ -29,7 +29,15 @@ export function useTimer() {
     const stopTimer = () => {
         clearInterval(timerIntervalRef.current);
         setIsRunning(false);
+        window.t = parseTime(time);
     };
+    function parseTime(t){
+        let [hours, minutes, seconds] = t.split(":");
+        let res =  parseFloat(seconds) + parseInt(minutes) * 60 + parseInt(hours) * 3600;
+        console.log("parsed time", res);
+        return res;
+
+    }
 
     return {
         time,
